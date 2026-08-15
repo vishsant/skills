@@ -1,0 +1,3 @@
+interface:
+  display_name: "Writing Commits"
+  short_description: "Write commits in a repo's house style"

@@ -1,0 +1,22 @@
+{
+  "name": "vishsant-skills",
+  "version": "0.1.0",
+  "description": "Vishnu Santhosh's agent skills for real engineering and productivity problems",
+  "author": {
+    "name": "Vishnu Santhosh",
+    "url": "https://github.com/vishsant"
+  },
+  "homepage": "https://github.com/vishsant/skills",
+  "repository": "https://github.com/vishsant/skills",
+  "license": "MIT",
+  "keywords": [
+    "skills",
+    "engineering",
+    "productivity",
+    "code",
+    "workflow"
+  ],
+  "skills": [
+    "./.agents/skills/eng-writing-commits"
+  ]
+}

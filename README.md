@@ -22,17 +22,26 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for how to add skills.
 
 ## Install
 
-### Claude Code (Marketplace)
+Two ways in. **The Claude Code plugin** installs the whole set as a managed bundle that updates when I ship. **`npx skills`** copies editable skill files into your project, so you can hack on them. Pick one — installing both leaves you with every skill twice.
+
+### Claude Code (plugin)
+
+This repo isn't in Claude Code's official marketplace, so add it first:
 
 ```bash
-/plugin install vishsant-skills
+/plugin marketplace add vishsant/skills
+/plugin install vishsant-skills@vishsant
 ```
 
-Or from the command palette: `/plugin install vishsant-skills`
+### Codex, and other agents
 
-### Manual (Editable)
+```bash
+npx skills@latest add vishsant/skills
+```
 
-Clone into your personal skills directory:
+### Manual (editable)
+
+Symlink a skill so edits in the repo take effect immediately:
 
 ```bash
 git clone https://github.com/vishsant/skills.git ~/.claude/skills-vishsant

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Learn It"
+  short_description: "Teach a topic so it locks in as understanding, across sessions"
+
+policy:
+  allow_implicit_invocation: false

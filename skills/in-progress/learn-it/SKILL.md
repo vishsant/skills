@@ -51,18 +51,21 @@ Learning is stateful, so it lives in a directory that persists across sessions:
 
 **Write the teaching into the lesson file as you go.** It is the artifact; chat carries the probing, the questions, and the steering. Markdown means LaTeX and mermaid render in any decent viewer.
 
+**Ephemeral mode.** The user can run the whole thing in the session instead: the same four documents in the same formats, written as chat messages rather than files, gone when the session closes. Every instruction below that names a file applies unchanged to its in-session counterpart, and nothing touches disk. Post them in full when they change, since a document the user can scroll back to is the only memory the run has.
+
 `MAP.md` is what makes a later session cheap: read it and you know the **frontier**, so you probe at the edge instead of re-teaching the middle. Every phase below writes to it, so read [MAP-FORMAT.md](MAP-FORMAT.md) for its shape and the `solid` / `shaky` / `planned` vocabulary before Phase 1.
 
 ## Phase 0 — Open the workspace
 
-**Ask the user where the workspace is.** This skill runs from wherever they happen to be while the learning lives somewhere fixed, so the path is theirs to give. Offer `~/learning/<topic-slug>/` as the default.
+**Ask the user where the workspace is, or whether to run ephemeral.** This skill runs from wherever they happen to be while the learning lives somewhere fixed, so the path is theirs to give. Offer `~/learning/<topic-slug>/` as the default.
 
+- **Ephemeral** — say plainly that this session's learning ends with the session, then establish the mission exactly as for a new workspace.
 - **Existing workspace** — read `MISSION.md`, `MAP.md`, `NOTES.md`, and skim the latest lesson. Confirm the mission still holds, then probe at the frontier it records.
 - **New workspace** — create it, then establish the mission before anything else. Interrogate until it is concrete: "I want to understand LLMs" means ten different things and each implies a different course. Ask what they want to be able to *do*, and what prompted it now, then write `MISSION.md` per [MISSION-FORMAT.md](MISSION-FORMAT.md).
 
 Every later judgment about what to teach is made against the mission, which is what makes pinning it the highest-return minute in the session.
 
-**Done when** `MISSION.md` holds a concrete mission the user has confirmed, and, for an existing workspace, you have read the frontier `MAP.md` records.
+**Done when** `MISSION.md` holds a concrete mission the user has confirmed, the user has chosen where it lives, and, for an existing workspace, you have read the frontier `MAP.md` records.
 
 ## Phase 1 — Probe first
 

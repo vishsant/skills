@@ -1,8 +1,10 @@
 # ADR 0001: Flat, Prefixed Skill Organization
 
-**Status:** Accepted  
+**Status:** Superseded by [ADR 0002](0002-bucketed-skill-organization.md)  
 **Date:** 2026-08-15  
 **Author:** Vishnu Santhosh
+
+> Superseded on 2026-08-28. The prefix never reached the agent (harnesses flatten skills, and frontmatter `name` was already unprefixed), and the flat layout gave the week-long real-use gate nowhere to happen. See [ADR 0002](0002-bucketed-skill-organization.md).
 
 ## Context
 
@@ -67,3 +69,5 @@ Enforcement: CONTRIBUTING.md + optional GitHub Actions lint
 ## Future Decisions
 
 If 50+ skills accumulate and prefixes become unwieldy, this can be revisited. For now, prefix-based organization is future-proof and simple.
+
+**Outcome:** revisited at 1 skill, not 50. The trigger was not prefix unwieldiness but the missing lifecycle stage described in ADR 0002.

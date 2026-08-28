@@ -17,6 +17,6 @@
     "workflow"
   ],
   "skills": [
-    "./.agents/skills/eng-writing-commits"
+    "./skills/engineering/writing-commits"
   ]
 }

@@ -4,43 +4,61 @@ You're in a skills repository. Before you do anything, read this.
 
 ## What This Repo Is
 
-A collection of agent skills I use in production. Each skill solves one real problem and has been tested for ≥1 week before it ships. Nothing here is theoretical.
-
-## Before You Add a Skill
-
-**You must follow these gates:**
-
-1. **Real use** — Use the skill in production for at least 1 week. Document the use case.
-2. **Tight scope** — Solves one problem well. No "might be useful someday."
-3. **Naming** — Matches `<prefix>-<skill-name>` (e.g., `eng-tdd`, `prod-grilling`). See [CONTRIBUTING.md](CONTRIBUTING.md).
-
-If you're tempted to skip these, read [CONTRIBUTING.md](CONTRIBUTING.md) first.
+A collection of agent skills I use in production. Each skill solves one real problem. Nothing here is theoretical.
 
 ## Structure
 
-Skills are flat in `.agents/skills/` with prefixed names:
-- `eng-*` for engineering/code
-- `prod-*` for productivity
-- `sys-*` for systems/infrastructure
-- `write-*` for writing/content
+Skills live in bucket folders under `skills/`:
 
-Why this structure? See [ADR 0001](.agents/adr/0001-flat-prefixed-skills.md).
+- `engineering/` — daily code work
+- `productivity/` — daily non-code workflow
+- `misc/` — kept around, rarely used
+- `in-progress/` — beta: public on purpose, feedback wanted, not shipped
+- `deprecated/` — no longer used
+
+`engineering/` and `productivity/` are the **promoted** buckets. Why buckets rather than the flat prefixed layout this repo started with: [ADR 0002](.agents/adr/0002-bucketed-skill-organization.md).
+
+Buckets are repo organization only. Every harness flattens skills into one directory, so **skill names must be unique repo-wide** — and worth checking against the ecosystem too, since `~/.claude/skills` holds skills from every source at once.
+
+## The Promotion Rule
+
+Every skill in a promoted bucket **must** have a row in the top-level `README.md` and an entry in `.claude-plugin/plugin.json`'s `skills` array. The plugin ships exactly the promoted set.
+
+Skills in `misc/`, `in-progress/`, and `deprecated/` **must not** appear in either.
+
+Each bucket has a `README.md` listing its skills, with the skill name linked to its `SKILL.md`.
+
+Run `claude plugin validate . --strict` after touching `plugin.json` or `marketplace.json`.
+
+## Before You Add a Skill
+
+1. **Real use** — used in production for at least a week. Until it clears that bar it belongs in `in-progress/`, not a promoted bucket.
+2. **Tight scope** — solves one problem well. No "might be useful someday."
+3. **Unique name** — no collision inside this repo or with skills already installed.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full process.
 
 ## Adding a Skill
 
-1. Create `.agents/skills/<prefix>-<name>/`
-2. Write `SKILL.md` with frontmatter (name, description) + markdown content
-3. Add `agents/openai.yaml` (optional but recommended)
-4. Update README.md skill table
-5. Test locally:
-   ```bash
-   ln -s $(pwd)/.agents/skills/eng-my-skill ~/.claude/skills/
-   # Use it in Claude Code
-   rm ~/.claude/skills/eng-my-skill  # Unlink when done
-   ```
+1. Create `skills/in-progress/<name>/`
+2. Write `SKILL.md`: YAML frontmatter (`name` matching the directory, `description`) plus markdown
+3. Add `agents/openai.yaml`
+4. Add a row to `skills/in-progress/README.md`
+5. Link it locally and use it: `scripts/link-skills.sh`
 
-Full details: [CONTRIBUTING.md](CONTRIBUTING.md)
+## Promoting a Skill
 
-## Questions?
+Once it has earned it:
 
-Check [README.md](README.md) or look at existing skills for patterns.
+1. `git mv skills/in-progress/<name> skills/<bucket>/<name>`
+2. Move its row from `skills/in-progress/README.md` to the bucket's `README.md`
+3. Add a row to the top-level `README.md`
+4. Add its path to `.claude-plugin/plugin.json`'s `skills` array
+5. Re-run `scripts/link-skills.sh`
+
+## Invocation
+
+Every `SKILL.md` is one of two kinds, and the choice is deliberate:
+
+- **User-invoked** — `disable-model-invocation: true` in the frontmatter plus `policy.allow_implicit_invocation: false` in `agents/openai.yaml`. Reachable only by the human. Use this when the skill has side effects the user should choose: writing to a workspace, prompting for a path, starting something stateful.
+- **Model-invoked** — no such keys. The agent triggers it from the `description`, so write the description as a trigger condition ("Use when...").

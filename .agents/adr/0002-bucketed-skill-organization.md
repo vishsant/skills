@@ -35,7 +35,7 @@ Buckets are repo organization only. Every harness flattens skills into a single 
 - **The maturity ladder is the point.** `in-progress/` gives the week-long gate somewhere to happen. A skill lives there while it earns its place, then moves one directory to ship.
 - **Buckets replace prefixes without losing anything.** The domain is still visible at a glance, but it is a directory you can rename or merge rather than a string baked into every skill's path.
 - **Promotion becomes a single, checkable rule.** In a promoted bucket implies listed in `README.md` and `plugin.json`; anywhere else implies listed in neither. That is lintable; "used it for a week" was not.
-- **Convergence with the ecosystem.** This mirrors [mattpocock/skills](https://github.com/mattpocock/skills), the layout most widely-installed skill repos already use, so contributors and tooling arrive knowing where things live.
+- **Convergence with the ecosystem.** This is the layout the most widely-installed skill repos already use, so contributors and tooling arrive knowing where things live.
 
 The nesting-depth objection in ADR 0001 was real but small: one extra level, and it buys a lifecycle the flat layout could not express.
 

@@ -1,6 +1,6 @@
 ---
 name: learn-it
-description: Teach the user a topic so it locks in as understanding rather than memorized facts, across sessions. Use when they want to learn something, or to resume something they are already learning.
+description: Teach a topic across sessions so it locks in as understanding, not memorized facts.
 disable-model-invocation: true
 argument-hint: "What do you want to learn?"
 ---
@@ -9,9 +9,9 @@ argument-hint: "What do you want to learn?"
 
 Two brains can hold the same facts and answer the same questions. One holds a pile of disconnected facts; the other holds a few core truths the rest are derivable from. That connection **is** understanding. Memorized facts rot. Understood facts hold each other in place.
 
-So the goal is never "they can recite it." It is a **dependency graph** in their head: roots they accept at face value, every other node visibly resting on the ones below it.
+The target is a **dependency graph** in their head: roots they accept at face value, every other node visibly resting on the ones below it.
 
-The mechanism: **the brain will not commit to a fact it is not sure is safe to lock in.** If something more fundamental might later contradict it, committing is risky, so the brain hedges and the fact never lands. Both principles remove that risk, and every step below serves them.
+The mechanism: **the brain commits only to facts it is sure are safe to lock in.** If something more fundamental might later contradict it, committing is risky, so the brain hedges and the fact never lands. Both principles remove that risk, and every step below serves them.
 
 ## Principle 1 — Unconditional truths first
 
@@ -19,14 +19,14 @@ Start from ground the user can accept **as-is, with no caveats**. Not because bo
 
 If a candidate truth needs conditions, it is not one yet. Dig down further.
 
-Two especially strong shapes, neither to be forced where the domain has no clean one:
+Reach for these two shapes wherever the domain has a clean one:
 
 - **Universal statements** — "all X are Y", "no X is Y". Nothing to hedge against. Strongest in atomic-unit form, *"ALL X happens through {____}"*: "ALL communication between computers is done through **sending packets**."
 - **Real definitions** — an actual definition, not properties dressed up as one. "Things that tend to be true of X" anchors nothing.
 
-Small and solid beats large and shaky.
+Where the domain has neither, take the smallest genuinely caveat-free ground you can find: small and solid beats large and shaky.
 
-**Terminology.** An *unconditional truth* is accepted without caveats; an *axiom* follows from nothing else. Not synonyms, since plenty of unconditional truths do derive from deeper things. Say "unconditional truth" unless the fact genuinely bottoms out.
+**Terminology.** An *unconditional truth* is accepted without caveats; an *axiom* follows from nothing else. Plenty of unconditional truths do derive from deeper things, so say "unconditional truth" unless the fact genuinely bottoms out.
 
 ## Principle 2 — "How could I have discovered this?"
 
@@ -38,84 +38,84 @@ Choose per stretch: **Socratic**, posing the motivating problem and letting them
 
 ## The workspace
 
-Learning is stateful. The workspace is a directory that persists across sessions:
+Learning is stateful, so it lives in a directory that persists across sessions:
 
 ```
 <workspace>/
-├── MISSION.md          why they want this — see MISSION-FORMAT.md
-├── MAP.md              the dependency graph and where the frontier sits — see MAP-FORMAT.md
-├── NOTES.md            how they want to be taught — see NOTES-FORMAT.md
+├── MISSION.md          why they want this
+├── MAP.md              the dependency graph and where the frontier sits
+├── NOTES.md            how they want to be taught
 └── lessons/
     └── 0001-<slug>.md  one markdown lesson per session
 ```
 
-Formats: [MISSION-FORMAT.md](MISSION-FORMAT.md), [MAP-FORMAT.md](MAP-FORMAT.md), [NOTES-FORMAT.md](NOTES-FORMAT.md).
+**Write the teaching into the lesson file as you go.** It is the artifact; chat carries the probing, the questions, and the steering. Markdown means LaTeX and mermaid render in any decent viewer.
 
-**The lesson file is the artifact, not a transcript.** Write the teaching into it as you go, and use chat for probing, questions, and steering. Markdown means LaTeX and mermaid render in any decent viewer.
-
-`MAP.md` is what makes a later session cheap: read it and you know the frontier, so you probe at the edge instead of re-teaching the middle.
+`MAP.md` is what makes a later session cheap: read it and you know the **frontier**, so you probe at the edge instead of re-teaching the middle. Every phase below writes to it, so read [MAP-FORMAT.md](MAP-FORMAT.md) for its shape and the `solid` / `shaky` / `planned` vocabulary before Phase 1.
 
 ## Phase 0 — Open the workspace
 
-**Ask the user where the workspace is.** Never assume the current directory: this skill is invoked from wherever they happen to be, and the learning lives somewhere fixed. Default to `~/learning/<topic-slug>/`, and offer it rather than silently using it.
+**Ask the user where the workspace is.** This skill runs from wherever they happen to be while the learning lives somewhere fixed, so the path is theirs to give. Offer `~/learning/<topic-slug>/` as the default.
 
-- **Existing workspace** — read `MISSION.md`, `MAP.md`, `NOTES.md`, and skim the latest lesson. Confirm the mission still holds, then probe **only at the frontier**, not from scratch.
-- **New workspace** — create it, then establish the mission before anything else. Interrogate until it is concrete: "I want to understand LLMs" means ten different things and each implies a different course. Ask what they want to be able to *do*, and what prompted it now. Write `MISSION.md` and confirm it.
+- **Existing workspace** — read `MISSION.md`, `MAP.md`, `NOTES.md`, and skim the latest lesson. Confirm the mission still holds, then probe at the frontier it records.
+- **New workspace** — create it, then establish the mission before anything else. Interrogate until it is concrete: "I want to understand LLMs" means ten different things and each implies a different course. Ask what they want to be able to *do*, and what prompted it now, then write `MISSION.md` per [MISSION-FORMAT.md](MISSION-FORMAT.md).
 
-Failing to pin the mission is the most expensive mistake available, since every later judgment about what to teach is made against it.
+Every later judgment about what to teach is made against the mission, which is what makes pinning it the highest-return minute in the session.
 
-## Phase 1 — Probe (never skip)
+**Done when** `MISSION.md` holds a concrete mission the user has confirmed, and, for an existing workspace, you have read the frontier `MAP.md` records.
 
-You cannot teach into the edge of someone's understanding without finding that edge first. Use graded questions (see [Asking graded questions](#asking-graded-questions)).
+## Phase 1 — Probe first
 
-**The edge is only located when it is bracketed.** For each strand the lesson will rest on, you need both a **floor** (something at that level they get right) and a **ceiling** (something they get wrong or genuinely do not know). The edge sits between them. One side alone tells you nothing.
+Teaching lands at the edge of someone's understanding, so find that edge before planning anything. Use graded questions (see [Asking graded questions](#asking-graded-questions)).
 
-- **All correct is not done.** It means the questions were too easy: a floor with no ceiling. Escalate hard until something breaks.
-- **Binary-search it.** After a right answer, jump difficulty sharply. After a wrong one, narrow back in.
-- **One wrong answer is not done either, and is not a cue to start teaching.** You do not know its kind yet: a slip, an isolated gap, or a systematic misconception. Probe around it. Misconceptions matter most, since a confidently held wrong model must be dislodged rather than topped up, so dig into its extent and record it in `MAP.md`.
-- **Map every strand the lesson depends on**, and no corners it does not.
+**An edge is located once it is bracketed.** For each strand the lesson will rest on, get both a **floor** (something at that level they answer right) and a **ceiling** (something they get wrong or genuinely do not know). The edge sits between them, and one side alone leaves it unlocated.
 
-**Done when**, for each goal-relevant strand, you can state concretely both what they have and where it runs out. Update `MAP.md`'s Frontier and Misconceptions before moving on.
+- **A clean run means escalate.** All-correct gives you a floor and no ceiling, so the questions were too easy. Jump the difficulty sharply until something breaks.
+- **Binary-search the edge.** Escalate hard after a right answer; narrow back in after a wrong one.
+- **Characterize every miss before drawing a conclusion.** One wrong answer is a single coordinate whose kind is still open: a slip, an isolated gap, or a systematic misconception. Probe around it. Misconceptions matter most, since a confidently held wrong model must be dislodged rather than topped up, so map its extent and record it in `MAP.md`.
+- **Cover every strand the lesson depends on**, and stop at the ones it does not.
 
-## Phase 2 — Plan (think hard here)
+**Done when every goal-relevant strand is bracketed** — you can name both what they hold and where it runs out — and `MAP.md`'s Frontier and Misconceptions record it.
 
-The highest-leverage step. Do not rush it.
+## Phase 2 — Plan
 
-1. **Scope the field.** Research before planning: core concepts, genuine first principles, standard framings, common gotchas. Do not plan around a half-remembered version. Delegate to a subagent if the harness has one, otherwise search directly.
+The highest-leverage phase: a good plan is what makes the teaching feel inevitable rather than arbitrary.
+
+1. **Scope the field.** Research before planning: core concepts, genuine first principles, standard framings, common gotchas. Ground the plan in what you verify now rather than what you recall. Delegate to a subagent if the harness has one, otherwise search directly.
 2. **Find the unconditional truths** this rests on. Is there a clean atomic unit?
-3. **Start from what they already hold.** Not below it, not above it.
+3. **Start at their edge.** Build from exactly what Phase 1 showed they hold.
 4. **Build the motivated path** from those truths to the mission. For each step, ask where it comes from and why anyone would reach for it.
-5. **Stress-test the roots.** For each node you are treating as foundational: genuinely accepted at face value, or a disguised theorem resting on something simpler? If it derives, push it down. A wrong root corrupts everything above it, and roots are far easier to audit on paper than mid-lesson.
+5. **Stress-test the roots.** For each node you are treating as foundational, ask whether it is genuinely accepted at face value or a disguised theorem resting on something simpler. If it derives, push it down and extend the map. A wrong root corrupts everything above it, and roots are far easier to audit on paper than mid-lesson.
 
 **Then present the plan in chat and stop.** Two parts:
 
 - **The approach, in prose.** What you will cover, in what order, and why this way given their edge and their mission.
 - **The dependency map** as a small ```mermaid``` `graph TD`: unconditional truths at the roots, the mission at the sink. Few nodes, short labels. This *is* the teaching order.
 
-Wait for their go-ahead. A wrong root is cheap to fix now and expensive mid-lesson. On approval, add the planned nodes to `MAP.md` as `planned` and open the lesson file.
+**Done when the user has approved the plan** — a wrong root is cheap to fix here and expensive mid-lesson — and `MAP.md` holds its nodes as `planned`. Then open the lesson file.
 
 ## Phase 3 — Teach (the loop)
 
-Build the graph **one node at a time**. Every node gets the full loop, foundations included:
+Build the graph **one node at a time**. Every node runs the same four steps, foundations included:
 
-1. **Motivate.** Why this node, right now? What gap does it close? Unconditional truths need this too: do not assert one just because it is true.
+1. **Motivate.** Why this node, right now? What gap does it close? Unconditional truths earn this too: motivate why *this* truth, *now*.
 2. **Establish.** A foundation: state it plainly, no caveats, and check it reads as obviously true to them. A derived step: build it from what is already in place via a motivated move.
 3. **Connect.** Make the dependency edge explicit. Show exactly what this hangs off. This is the step that converts a fact into understanding, and the one most often skipped.
-4. **Check.** Confirm it landed with a graded question. If they miss it, mark the node `shaky` in `MAP.md` and fix it before building on top.
+4. **Check.** Confirm it landed with a graded question. A node earns `solid` in `MAP.md` only here; on a miss, mark it `shaky` and repair it before building on top.
 
-Write each node into the lesson file as you complete it, and update `MAP.md` statuses as you go rather than at the end.
+Write each node into the lesson file as you complete it, and move its `MAP.md` status as you go.
 
-Never front-load the foundations and then stop checking. If you catch yourself asserting something they would have to take on faith, stop: motivate and confirm it, or ground it in something already established.
+Run all four steps on every node for the whole session, foundations included. When you catch yourself asserting something they would have to take on faith, stop and either motivate and confirm it, or ground it in something already established.
 
-**End the session** by updating `MAP.md` (statuses, Frontier, new misconceptions) and noting in the lesson what comes next. Add any stated teaching preferences to `NOTES.md`.
+**Done when** every node taught this session is `solid` or explicitly `shaky`, `MAP.md`'s Frontier names where the edge now sits, and the lesson closes with what comes next. Record any stated teaching preferences in `NOTES.md` per [NOTES-FORMAT.md](NOTES-FORMAT.md).
 
 ## Asking graded questions
 
-Graded questions do the work in Phase 1 and Phase 3, so they matter more than any other mechanic here. Every one has a known correct answer, and which wrong option they pick tells you *where* they went wrong, not merely that they did.
+Graded questions carry Phase 1 and Phase 3. Every one has a known correct answer, and which wrong option they pick tells you *where* they went wrong rather than merely that they did.
 
 **Use the harness's graded-question tool if it has one.** Otherwise use this protocol, which works anywhere:
 
-1. Present the question with lettered options, plus **"I don't know"** as an explicit choice. Without it you get guesses that read as knowledge.
+1. Present the question with lettered options, plus **"I don't know"** as an explicit choice. It keeps a genuine gap distinguishable from a lucky guess.
 2. **Withhold the correct answer and the explanation** until after they answer.
 3. On their reply: mark it ✓ or ✗, give the correct answer, explain why.
 4. One at a time, each adapted to the last answer. Many small graded questions beat one big caveated one.
@@ -127,7 +127,7 @@ The usual failure is that the correct option is guessable from its shape alone. 
 1. **Every option is a bare claim, with no justification anywhere.** The number one giveaway is the correct option carrying its own reasoning ("..., because it preserves ordering") while the distractors are bare, making it longer and more specific. Put zero "why" in any option. All reasoning goes in the explanation, after they answer.
 2. **Write the correct claim first, then mutate it into each distractor.** Take a real misconception and state what someone holding it would claim, in the *same* skeleton, grain size, and register. Every option is then "the claim under some belief," and the correct one is just the claim under the correct belief. Parallelism falls out by construction instead of being policed.
 3. **Each distractor is a real error they might actually make**, so which one they pick is diagnostic, yet unambiguously wrong on the intended reading. Tempting, not tricky.
-4. **No asymmetric formatting.** Do not bold the key term in the correct option only. Bold it in all of them or none.
+4. **Format every option identically.** Bold the parallel term in all of them or in none, so formatting never singles out the answer.
 
 If you can read the finished set cold and still tell which is right without knowing the material, you skipped step 1 or 2. Regenerate rather than patch.
 
@@ -135,18 +135,18 @@ If you can read the finished set cold and still tell which is right without know
 
 The user has to be able to trust the teacher completely, and one confidently delivered hallucination poisons that. Working from memory is where models invent things.
 
-**The moment you are even slightly unsure of a fact, name, date, formula, definition, or claim, stop and verify before you say it.** Use a research subagent if the harness has one, otherwise search. If it has neither, say plainly that you cannot verify and flag the claim as uncertain rather than asserting it.
+**The moment you are even slightly unsure of a fact, name, date, formula, definition, or claim, stop and verify before you say it.** Use a research subagent if the harness has one, otherwise search. If it has neither, say plainly that the claim is unverified and mark it as uncertain.
 
 Pausing to verify is always acceptable, and accuracy beats flow. If a check corrects what you were about to teach, say so rather than quietly papering over it.
 
 ## Visuals
 
-A picture earns its place only when it shows something words cannot: structure, direction, relationship, geometry. Reach for one for a dependency graph, a system with parts and arrows, a flow, a sequence, a state machine, a tree, or something spatial.
+Visualize when the idea is a structure or a geometry: a dependency graph, a system with parts and arrows, a flow, a sequence, a state machine, a tree, something spatial. A picture earns its place by showing what words cannot.
 
-Write it as a ```mermaid``` block directly in the lesson file. One idea, fewest elements: for each element, ask whether deleting it loses the idea, and if not, delete it. Cramming makes a diagram both harder to read and likelier to be wrong.
+Write it as a ```mermaid``` block directly in the lesson file. One idea, fewest elements: for each element, ask whether deleting it loses the idea, and keep it only if it does. Cramming makes a diagram both harder to read and likelier to be wrong.
 
-Do not visualize when prose or a single equation already carries it. A decorative diagram restating the sentence beside it adds noise and a chance to be wrong. When in doubt, leave it out.
+When prose or a single equation already carries the idea, leave it in prose. A diagram restating the sentence beside it adds noise and a chance to be wrong, so when in doubt, keep writing.
 
 ## Formatting
 
-Lesson files are read rendered, so write math as LaTeX: `$f(x) = x^2$` inline, `$$` fenced on its own lines for display. If LaTeX can be used, use it.
+Lesson files are read rendered, so write all math as LaTeX: `$f(x) = x^2$` inline, `$$` fenced on its own lines for display.

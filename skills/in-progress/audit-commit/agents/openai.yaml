@@ -1,0 +1,3 @@
+interface:
+  display_name: "Audit Commit"
+  short_description: "Scan a staged diff for leaked credentials before committing"

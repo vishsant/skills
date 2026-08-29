@@ -1,29 +1,27 @@
 ---
 name: writing-commits
-description: Commit messages written in a repo's own house style. Use before git commit, when drafting or rewording a message, or when amending message text.
+description: Commit messages written in a repo's own house style. Use before git commit, or when drafting or amending a message.
 ---
 
 # Writing Commits
 
 A commit message is accepted when it looks like it was written by the people already committing to the repo. So the **house style** — that repo's observed conventions — outranks any general rule of good commit writing. Infer it from evidence every time; repos differ, and your memory of this repo is stale.
 
-## Step 1 — Read the house style
+## Step 1 — Read the house style, then name the convention
 
-Run all three. Cheap, and each answers a different question.
+Stage the change first — the third command reads staged paths. Run all three. Cheap, and each answers a different question.
 
 ```bash
-git log --no-merges -50 --format='%s'                    # subject conventions
-git log --no-merges -12 --format='%B%n--8<--'            # body conventions
-git log --no-merges -20 --format='%s' -- <staged paths>  # subsystem-local prefixes
+git log --no-merges -50 --format='%s'                                       # subject conventions
+git log --no-merges -12 --format='%B%n--8<--'                               # body conventions
+git log --no-merges -20 --format='%s' -- $(git diff --cached --name-only)   # subsystem-local prefixes
 ```
 
 Sampling is asymmetric on purpose: subjects are one line so take many, bodies are expensive so take few. When most of those 12 carry no body, body-less **is** the house style for small changes — check whether the ones that do have bodies are the larger diffs.
 
 **Declared style beats inferred style.** Read whichever of these exist, and follow them where they conflict with the log: `CONTRIBUTING.md`, `.gitmessage`, `commitlint.config.*`, `.commitlintrc*`, `.github/PULL_REQUEST_TEMPLATE.md`.
 
-Done when every slot in Step 2 is filled from a named source — a declared file, or a majority you observed in the sample.
-
-## Step 2 — Name the convention
+**No usable history** — a fresh repo, or all three commands come back empty — means there is no house style to infer. Say so, and go straight to the fallback below instead of inventing a convention from a handful of commits.
 
 State each slot to yourself before writing a word of the message:
 
@@ -38,9 +36,11 @@ State each slot to yourself before writing a word of the message:
 
 Where the sample is genuinely split, follow the most recent commits — conventions drift forward.
 
-**Fallback**, only for slots the sample leaves undecided: imperative subject ≤50 chars with no trailing period, blank line, body wrapped at 72 explaining why over what.
+**Fallback**, for slots the sample leaves undecided, or when there is no usable history at all: imperative subject ≤50 chars with no trailing period, blank line, body wrapped at 72 explaining why over what.
 
-## Step 3 — Write it against the staged diff
+Done when every slot above is filled from a named source — a declared file, an observed majority, or the fallback.
+
+## Step 2 — Write it against the staged diff
 
 Read `git diff --cached` and describe what is actually staged — not the whole session's work, and not the plan you were following.
 
@@ -52,7 +52,9 @@ Commit multi-line messages by passing a file, so the body survives shell quoting
 git commit -F <path>
 ```
 
-Done when the message fills every Step 2 slot as named, and its claims match the staged diff.
+**A rejected or rewritten commit means a hook caught something real.** Read its output and fix the message; don't reach for `--no-verify`.
+
+Done when the message fills every slot named in Step 1, and its claims match the staged diff.
 
 ## When the diff resists one message
 

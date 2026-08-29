@@ -73,7 +73,15 @@ policy:
 
 Add a row to `skills/in-progress/README.md`.
 
-### 5. Use it for real
+### 5. Test it in isolation
+
+```bash
+./run.sh
+```
+
+Launches `pi` scoped to only this repo's skills (excluding `deprecated/`) — no interference from other skills installed globally. Rebuilds `.agents/skills` from the repo on every run, so don't author anything directly in `.agents/skills`; it's a disposable view of `skills/`.
+
+### 6. Use it for real
 
 ```bash
 scripts/link-skills.sh

@@ -57,15 +57,15 @@ Learning is stateful, so it lives in a directory that persists across sessions:
 
 ## Phase 0 — Open the workspace
 
-**Ask the user where the workspace is, or whether to run ephemeral.** This skill runs from wherever they happen to be while the learning lives somewhere fixed, so the path is theirs to give. Offer `~/learning/<topic-slug>/` as the default.
+**Default to ephemeral: don't ask where the workspace lives.** Use ephemeral unless the user's request already names a workspace path or asks to persist the learning, in which case use that instead.
 
-- **Ephemeral** — say plainly that this session's learning ends with the session, then establish the mission exactly as for a new workspace.
+- **Ephemeral (default)** — say plainly that this session's learning ends with the session, then establish the mission exactly as for a new workspace.
 - **Existing workspace** — read `MISSION.md`, `MAP.md`, `NOTES.md`, and skim the latest lesson. Confirm the mission still holds, then probe at the frontier it records.
 - **New workspace** — create it, then establish the mission before anything else. Interrogate until it is concrete: "I want to understand LLMs" means ten different things and each implies a different course. Ask what they want to be able to *do*, and what prompted it now, then write `MISSION.md` per [MISSION-FORMAT.md](MISSION-FORMAT.md).
 
 Every later judgment about what to teach is made against the mission, which is what makes pinning it the highest-return minute in the session.
 
-**Done when** `MISSION.md` holds a concrete mission the user has confirmed, the user has chosen where it lives, and, for an existing workspace, you have read the frontier `MAP.md` records.
+**Done when** `MISSION.md` holds a concrete mission the user has confirmed, the workspace mode (ephemeral or persisted) is settled, and, for an existing workspace, you have read the frontier `MAP.md` records.
 
 ## Phase 1 — Probe first
 

@@ -8,3 +8,4 @@ A skill lives here while it earns its place under the real-use gate in [CONTRIBU
 | --- | --- |
 | [audit-commit](audit-commit/SKILL.md) | You're about to commit and want the staged diff checked for leaked credentials |
 | [learn-it](learn-it/SKILL.md) | You want to actually understand something, not just be told it |
+| [note-it-down](note-it-down/SKILL.md) | You're watching or reading something and want structured notes captured as you go |

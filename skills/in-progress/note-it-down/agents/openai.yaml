@@ -1,0 +1,6 @@
+interface:
+  display_name: "Note It Down"
+  short_description: "Take structured notes while consuming source material"
+
+policy:
+  allow_implicit_invocation: false
